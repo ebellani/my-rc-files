@@ -90,14 +90,14 @@ alias myip='curl "http://www.networksecuritytoolkit.org/nst/cgi-bin/ip.cgi"'
 
 # Build pdflatex project, including new bibtex entries
 function lt {
-    pdflatex $1; pdflatex $1; bibtex $1.aux; pdflatex $1; pdflatex $1; evince $1.pdf & 
+    pdflatex -interaction batchmode $1; pdflatex -interaction batchmode $1; bibtex $1.aux; pdflatex -interaction batchmode$1; pdflatex -interaction batchmode $1; evince $1.pdf & 
     rm *.aux; rm *.bbl; rm *.blg; rm *.out
     clear
 }
 
 #same as above, but faster, for something that does not need a bibtex update
 function lt-fast {
-    pdflatex $1; evince $1.pdf & 
+    pdflatex -interaction batchmode $1; evince $1.pdf & 
     rm *.aux; rm *.bbl; rm *.blg; rm *.out
     clear
 }
