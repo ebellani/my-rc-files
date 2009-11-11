@@ -18,7 +18,7 @@ if [ -f /etc/bash_completion ]; then
 fi
 
 #enable bash completion of rake tasks
-complete -C /home/ebellani/Sources/Scripts/rake_completion -o default rake
+complete -C ~/rake_completion -o default rake
 
 
 ###########################
