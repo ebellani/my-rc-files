@@ -59,6 +59,8 @@ colorscheme twilight
 "prettier font...
 set guifont=Liberation\ Mono\ 12 
 
+
+
 " those next 2 commands are taken from a tip in http://vim.sourceforge.net/tips/tip.php?tip_id=259
 " They basically map to keys F1 -> toogle menu; F2 -> toggle toolbar
 
@@ -97,13 +99,14 @@ let g:rubycomplete_rails = 1
 "
 "MAPPINGS 
 "
+let mapleader = " "
 "
 " Make shift-insert work like in Xterm
 map  <S-Insert> <MiddleMouse>
 map! <S-Insert> <MiddleMouse>
 "this pastes what's copied, not what is selected
-map  <leader>v <ESC>"+gp 
-map  <leader>c "+y 
+map  <leader>p <ESC>"+gp 
+map  <leader>y "+y 
 
 map  <leader>n :vnew<CR>
 
@@ -151,7 +154,7 @@ augroup myfiletypes
 augroup END
 
 "Autoidenting ruby code using the kode gem. Found on http://antono.info/en/50
-nmap <leader>rci :%!ruby-code-indenter<cr>
+"nmap <leader>rci :%!ruby-code-indenter<cr>
 
 "map the leader c key to the buffer delete
 nmap <leader>d :bd<cr>
