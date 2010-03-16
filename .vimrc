@@ -164,3 +164,4 @@ nmap <leader>w :w<cr>
 
 "write all the  buffers
 nmap <leader>wa :wa<cr>
+

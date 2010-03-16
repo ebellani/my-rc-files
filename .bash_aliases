@@ -90,7 +90,7 @@ alias myip='curl "http://www.networksecuritytoolkit.org/nst/cgi-bin/ip.cgi"'
 
 # Build pdflatex project, including new bibtex entries
 function lt {
-    pdflatex -interaction batchmode $1; pdflatex -interaction batchmode $1; bibtex $1.aux; pdflatex -interaction batchmode$1; pdflatex -interaction batchmode $1; evince $1.pdf & 
+    pdflatex -interaction batchmode $1; pdflatex -interaction batchmode $1; bibtex $1.aux; pdflatex -interaction batchmode $1; pdflatex -interaction batchmode $1; evince $1.pdf & 
     rm *.aux; rm *.bbl; rm *.blg; rm *.out
     clear
 }
@@ -114,3 +114,33 @@ alias latex2html='latex2html -split 0'
 #nice prompts. Taken from 
 #http://maketecheasier.com/8-useful-and-interesting-bash-prompts/2009/09/04
 PS1="(\[\e[34;1m\]\u@\h\[\e[30;1m\])-(\[\[\e[32;1m\]\w\[\e[30;1m\])-(\[\e[32;1m\]\$(/bin/ls -1 | /usr/bin/wc -l | /bin/sed 's: ::g') files, \$(/bin/ls -lah | /bin/grep -m 1 total | /bin/sed 's/total //')b\[\e[30;1m\])--> \[\e[0m\]"
+
+# run ssh-agent when bash starts
+# taken from
+# http://help.github.com/working-with-key-passphrases/
+SSH_ENV="$HOME/.ssh/environment"
+
+function start_agent {
+  echo "Initializing new SSH agent..."
+  /usr/bin/ssh-agent | sed 's/^echo/#echo/' > "${SSH_ENV}"
+  echo succeeded
+  chmod 600 "${SSH_ENV}"
+  . "${SSH_ENV}" > /dev/null
+  /usr/bin/ssh-add;
+}
+
+# Source SSH settings, if applicable
+if [ -f "${SSH_ENV}" ]; then
+  . "${SSH_ENV}" > /dev/null
+  #ps ${SSH_AGENT_PID} doesn't work under cywgin
+  ps -ef | grep ${SSH_AGENT_PID} | grep ssh-agent$ > /dev/null || {
+    start_agent;
+  }
+else
+  start_agent;
+fi
+
+#enable vim support in bash
+# found it here http://www.themomorohoax.com/2009/02/09/vim-folks-use-bashs-vim-mode
+set -o vi 
+
