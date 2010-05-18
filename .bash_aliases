@@ -1,3 +1,8 @@
+#
+#enable vim support in bash
+# found it here http://www.themomorohoax.com/2009/02/09/vim-folks-use-bashs-vim-mode
+set -o vi 
+
 # increase bash_history size
 HISTSIZE=1000000 
 
@@ -18,7 +23,7 @@ if [ -f /etc/bash_completion ]; then
 fi
 
 #enable bash completion of rake tasks
-complete -C ~/rake_completion -o default rake
+complete -C ~/Sources/Scripts/rake_completion -o default rake
 
 
 ###########################
@@ -45,13 +50,9 @@ alias rdbm="rake db:migrate"
 alias rdbb="rake db:bootstrap"
 alias rdbreset="rake db:migrate VERSION=0 && rake db:migrate VERSION=0 RAILS_ENV=test && rake db:migrate && rake db:migrate RAILS_ENV=test"
 
-#project tasks
-#alias devcockpit='rdbreset;rdbb; rdbb RAILS_ENV=test;'
-alias devcockpit='rdbreset;rake db:bootstrap; rake db:bootstrap RAILS_ENV=test; annotate;rake spec;'
-
 # RSpec & testing
 #alias spec='rake spec'
-alias aspec='./script/autospec'
+alias spec='./script/spec'
 
 # specm <model_name>
 function specm {
@@ -130,6 +131,7 @@ function start_agent {
 }
 
 # Source SSH settings, if applicable
+# automatically start agent
 if [ -f "${SSH_ENV}" ]; then
   . "${SSH_ENV}" > /dev/null
   #ps ${SSH_AGENT_PID} doesn't work under cywgin
@@ -140,7 +142,4 @@ else
   start_agent;
 fi
 
-#enable vim support in bash
-# found it here http://www.themomorohoax.com/2009/02/09/vim-folks-use-bashs-vim-mode
-set -o vi 
 

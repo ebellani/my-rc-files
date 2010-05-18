@@ -141,17 +141,25 @@ set mousemodel=popup
 
 set textwidth=80
 
-"found those on http://wiki.rubyonrails.org/rails/pages/HowtoUseVimWithRails
+" found those on http://wiki.rubyonrails.org/rails/pages/HowtoUseVimWithRails
+" or http://vimcasts.org/episodes/whitespace-preferences-and-filetypes/
+" Only do this part when compiled with support for autocommands
+if has("autocmd")
 filetype plugin indent on " Enable filetype-specific indenting and plugins
-augroup myfiletypes
-    " Clear old autocmds in group
-    autocmd!
+
+    " Syntax of these languages is fussy over tabs Vs spaces
+    autocmd FileType make setlocal ts=8 sts=8 sw=8 noexpandtab
+
     " autoindent with two spaces, always expand tabs. For other types of
     " identation, add new file types.
-    autocmd FileType ruby,eruby,yaml set ai sw=2 sts=2 bs=2 et
+    autocmd FileType ruby,eruby,yaml set ai sw=2 sts=2 bs=2 expandtab
+    
+    " Treat .rss files as XML
+    autocmd BufNewFile,BufRead *.rss setfiletype xml
     " if not any of those files, fall to the default
     set ai sw=4 sts=4 bs=2 et
-augroup END
+
+endif
 
 "Autoidenting ruby code using the kode gem. Found on http://antono.info/en/50
 "nmap <leader>rci :%!ruby-code-indenter<cr>
