@@ -46,7 +46,7 @@ alias irb='irb --readline -r irb/completion'
 alias gemlist='gem list | egrep -v "^( |$)"'
 #alias gs="gem server & sleep 1; open 'http://localhost:8808'" # conflict with Git Status
 alias pdoc="open -a Firefox ./doc/plugins/"
-alias rdbm="rake db:migrate"
+alias rdbm="rake db:migrate && rake db:migrate RAILS_ENV=test"
 alias rdbb="rake db:bootstrap"
 alias rdbreset="rake db:migrate VERSION=0 && rake db:migrate VERSION=0 RAILS_ENV=test && rake db:migrate && rake db:migrate RAILS_ENV=test"
 
@@ -121,7 +121,7 @@ PS1="(\[\e[34;1m\]\u@\h\[\e[30;1m\])-(\[\[\e[32;1m\]\w\[\e[30;1m\])-(\[\e[32;1m\
 # http://help.github.com/working-with-key-passphrases/
 SSH_ENV="$HOME/.ssh/environment"
 
-function start_agent {
+function open_ssh {
   echo "Initializing new SSH agent..."
   /usr/bin/ssh-agent | sed 's/^echo/#echo/' > "${SSH_ENV}"
   echo succeeded
@@ -131,15 +131,36 @@ function start_agent {
 }
 
 # Source SSH settings, if applicable
-# automatically start agent
+# automatically opens my ssh key
 if [ -f "${SSH_ENV}" ]; then
   . "${SSH_ENV}" > /dev/null
   #ps ${SSH_AGENT_PID} doesn't work under cywgin
   ps -ef | grep ${SSH_AGENT_PID} | grep ssh-agent$ > /dev/null || {
-    start_agent;
+    open_ssh;
   }
 else
-  start_agent;
+  open_ssh;
 fi
 
+#######################################################
+##  Public Domain Software -- Free to Use as You Like  #
+##  http://www.centerkey.com/tree  -  By Dem Pilafian  #
+########################################################
 
+function tree(){
+echo
+if [ "$1" != "" ]  #if parameter exists, use as base folder
+    then cd "$1"
+fi
+pwd
+ls -R | grep ":$" |   \
+    sed -e 's/:$//' -e 's/[^-][^\/]*\//--/g' -e 's/^/   /' -e 's/-/|/'
+# 1st sed: remove colons
+# 2nd sed: replace higher level folder names with dashes
+# 3rd sed: indent graph three spaces
+# 4th sed: replace first dash with a vertical bar
+if [ `ls -F -1 | grep "/" | wc -l` = 0 ]   # check if no folders
+    then echo "   -> no sub-directories"
+fi
+echo
+}
