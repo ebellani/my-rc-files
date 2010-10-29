@@ -1,0 +1,6 @@
+grammar RobotGrammar
+  rule hello
+    'hello robot'
+  end
+end
+

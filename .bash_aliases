@@ -1,4 +1,4 @@
-#
+  #
 #enable vim support in bash
 # found it here http://www.themomorohoax.com/2009/02/09/vim-folks-use-bashs-vim-mode
 set -o vi 
