@@ -1,0 +1,33 @@
+grammar RobotGrammar do
+  include RobotMovement
+
+  rule board do
+    integer_and_spaces integer {
+      def value
+        RobotMovement::Board.new(integer_and_spaces.value-1, integer.value-1)
+      end
+    }
+  end
+
+  rule integer_and_spaces do
+    integer spaces {
+      def value 
+        integer.value
+      end
+    }
+  end
+
+  rule integer do
+    [0-9]+ {
+      def value
+        text_value.to_i 
+      end
+    }
+  end
+
+  rule spaces do
+    ' '+
+  end
+
+end
+
